@@ -5,6 +5,7 @@
 
     <string name="ip_address">IP Address:*</string>
     <string name="ip_address_hint">192.168.1.69</string>
+    <string name="ip_address_pattern">That doesn\'t look like an IP Address</string>
     <string name="port">Port: </string>
     <string name="port_hint">36330</string>
     <string name="nickname">Nickname:*</string>

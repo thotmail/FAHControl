@@ -41,6 +41,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NicknameInput" />
 
+    <TextView
+        android:id="@+id/IPAddrWarn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/ip_address_pattern"
+        android:textColor="@color/colorError"
+        android:visibility="gone"
+        app:layout_constraintStart_toEndOf="@+id/IPAddrPrompt"
+        app:layout_constraintTop_toBottomOf="@+id/NicknameInput" />
+
     <EditText
         android:id="@+id/IPAddrInput"
         android:layout_width="0dp"
@@ -113,7 +125,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:text="@string/password_warn"
-        android:textColor="#FD0000"
+        android:textColor="@color/colorError"
         android:visibility="gone"
         app:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
@@ -140,4 +152,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
