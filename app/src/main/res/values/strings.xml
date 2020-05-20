@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">FAHControl</string>
+
+    <string name="ip_address">IP Address*</string>
+    <string name="add_connection">Add Server</string>
+    <string name="port_hint">Port (36330)</string>
+    <string name="nickname">Nickname*</string>
+    <string name="password_warn">Passwords will be transmitted in plaintext.\nIt is strongly recommended that you don\'t use your bank password for folding @ home.\nPress submit again to acknowledge.</string>
+    <string name="password">Password</string>
+    <string name="expected_first_recieve">Welcome to the Folding@home Client command server.</string>
+</resources>
