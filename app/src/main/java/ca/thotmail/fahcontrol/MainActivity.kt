@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    val ADD_SERVER = 1
+    val REQ_CODE_ADD_SERVER = 1
 
     private lateinit var dao : ConnInfoDao
 
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         MainRecycler.adapter = MainAdapter(dao)
 
         addConnection.setOnClickListener {
-            startActivityForResult(Intent(this, AddConnectionActivity::class.java), ADD_SERVER)
+            startActivityForResult(Intent(this, AddConnectionActivity::class.java), REQ_CODE_ADD_SERVER)
             (MainRecycler.adapter as MainAdapter).updateConnections()
         }
 
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
-            ADD_SERVER -> addServerResult(resultCode, data)
+            REQ_CODE_ADD_SERVER -> addServerResult(resultCode, data)
         }
     }
 
