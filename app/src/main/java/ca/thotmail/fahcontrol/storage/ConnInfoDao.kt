@@ -8,8 +8,8 @@ import androidx.room.Query
 @Dao
 interface ConnInfoDao {
     @Query("SELECT * FROM ConnectionInfo")
-    fun getAll():List<ConnectionInfo>
-    //suspend for coroutine
+    suspend fun getAll():List<ConnectionInfo>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun InsertAll(vararg connections: ConnectionInfo)
+    suspend fun insertAll(vararg connections: ConnectionInfo)
 }

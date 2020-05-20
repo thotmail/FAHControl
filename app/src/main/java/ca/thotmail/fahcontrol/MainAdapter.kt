@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ca.thotmail.fahcontrol.storage.*
 import kotlinx.android.synthetic.main.fragment_mini_connection.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
 
@@ -19,7 +21,10 @@ class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
     }
 
     fun updateConnections(){
-        connections = dao.getAll()
+        GlobalScope.launch {
+            connections = dao.getAll()
+        }
+
     }
 
     override fun getItemCount(): Int {
