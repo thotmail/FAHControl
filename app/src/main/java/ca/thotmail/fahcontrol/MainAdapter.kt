@@ -1,12 +1,14 @@
 package ca.thotmail.fahcontrol
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ca.thotmail.fahcontrol.storage.*
 import kotlinx.android.synthetic.main.fragment_mini_connection.view.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -21,14 +23,19 @@ class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
     }
 
     fun updateConnections(){
-        GlobalScope.launch {
+        GlobalScope.launch(Dispatchers.Main) {
             connections = dao.getAll()
+            notifyDataSetChanged()
         }
 
     }
 
     override fun getItemCount(): Int {
-        return 2
+        return if(this::connections.isInitialized) {
+            connections.size
+        }else{
+            0
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -38,7 +45,24 @@ class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.view.IPAddressPort.text = "192.168.1.249:111"
+        val cur = connections[position]
+        val combi = cur.ipAddr+":"+cur.port
+
+        holder.view.IPAddressPort.text = combi
+        holder.view.Name.text = cur.nickname
+        holder.view.Status.text = "Unknown"
+
+        GlobalScope.launch(Dispatchers.Default){
+            if(isOnline(cur)){
+                holder.view.Status.text = "Online"
+                holder.view.Status.setBackgroundColor(Color.GREEN)
+            }
+            else{
+                holder.view.Status.text = "Offline"
+                holder.view.Status.setBackgroundColor(Color.RED)
+            }
+        }
+
     }
 
 }

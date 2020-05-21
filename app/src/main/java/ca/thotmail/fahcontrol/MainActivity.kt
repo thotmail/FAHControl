@@ -1,15 +1,20 @@
 package ca.thotmail.fahcontrol
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ca.thotmail.fahcontrol.storage.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
+private const val REQ_CODE_ADD_SERVER = 1
 
 class MainActivity : AppCompatActivity() {
 
-    val REQ_CODE_ADD_SERVER = 1
+
 
     private lateinit var dao : ConnInfoDao
 
@@ -25,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         addConnection.setOnClickListener {
             startActivityForResult(Intent(this, AddConnectionActivity::class.java), REQ_CODE_ADD_SERVER)
-            (MainRecycler.adapter as MainAdapter).updateConnections()
+
         }
 
     }
@@ -38,7 +43,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addServerResult(resultCode: Int, data: Intent?){
+        if(resultCode == Activity.RESULT_OK) {
 
+            val info = data?.getSerializableExtra("info") as ConnectionInfo
+            GlobalScope.launch {
+                dao.insertAll(info)
+
+                (MainRecycler.adapter as MainAdapter).updateConnections()
+            }
+        }
     }
 
 }

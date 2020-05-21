@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import ca.thotmail.fahcontrol.storage.ConnectionInfo
 import kotlinx.android.synthetic.main.activity_add_connection.*
 import java.lang.Integer.parseInt
 import java.util.regex.Pattern
@@ -16,8 +17,8 @@ class AddConnectionActivity: AppCompatActivity() {
 
     val partialIPAddressPattern: Pattern = Pattern.compile("^((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])\\.){0,3}"+
             "((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])){0,1}$")
-    val partOfIP = "([01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])"
-    val IPAddressPattern: Pattern = Pattern.compile("$partOfIP\\.$partOfIP\\.$partOfIP\\.$partOfIP")
+    private val partOfIP = "([01]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])"
+    val ipAddressPattern: Pattern = Pattern.compile("$partOfIP\\.$partOfIP\\.$partOfIP\\.$partOfIP")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class AddConnectionActivity: AppCompatActivity() {
                 else{
                     s?.replace(0, s.length, prev)
                 }
-                if(IPAddressPattern.matcher(s).matches()){
+                if(ipAddressPattern.matcher(s).matches()){
                     IPAddrWarn.visibility = View.GONE
                 }
             }
@@ -74,13 +75,36 @@ class AddConnectionActivity: AppCompatActivity() {
                 IPAddrInput.background = resources.getDrawable(R.drawable.border_error, null)
                 submit = false
             }
-            else if(!IPAddressPattern.matcher(IPAddrInput.text.toString()).matches()){
+            else if(!ipAddressPattern.matcher(IPAddrInput.text.toString()).matches()){
                 IPAddrWarn.visibility = View.VISIBLE
                 IPAddrPrompt.setTextColor(ContextCompat.getColor(applicationContext, R.color.colorError))
                 IPAddrInput.background = resources.getDrawable(R.drawable.border_error, null)
                 submit = false
             }
 
+            if(submit){
+                val resultIntent = Intent()
+
+                val ip = IPAddrInput.text.toString()
+                val nick = NicknameInput.text.toString()
+
+                var port = 36330
+                var pass = ""
+
+                if(PortInput.text.toString().isNotEmpty()){
+                    port = parseInt(PortInput.text.toString())
+                }
+
+                if(PasswordInput.text.toString().isNotEmpty()){
+                    pass = PasswordInput.text.toString()
+                }
+
+                resultIntent.putExtra("info", ConnectionInfo(ip, port, nick, pass))
+
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish()
+
+            }
 
 
         }
