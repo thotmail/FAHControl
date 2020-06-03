@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_default="percent"
         app:layout_constraintWidth_percent=".2"
-        tools:text="Unknown" />
+        tools:text="Checking" />
 
     <TextView
         android:id="@+id/IPAddressPort"

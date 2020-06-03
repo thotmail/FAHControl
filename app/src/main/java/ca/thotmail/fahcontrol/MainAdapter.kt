@@ -47,32 +47,51 @@ class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val cur = connections[position]
         val combi = cur.ipAddr+":"+cur.port
+        holder.info = cur
 
         holder.view.IPAddressPort.text = combi
         holder.view.Name.text = cur.nickname
         holder.view.Status.text = "Unknown"
 
-        GlobalScope.launch(Dispatchers.Default){
-            if(isOnline(cur)){
-                holder.view.Status.text = "Online"
-                holder.view.Status.setBackgroundColor(Color.GREEN)
-            }
-            else{
-                holder.view.Status.text = "Offline"
-                holder.view.Status.setBackgroundColor(Color.RED)
-            }
-        }
+        holder.update()
 
     }
 
 }
 
-class CustomViewHolder(val view: View): RecyclerView.ViewHolder(view){
+class CustomViewHolder(val view: View, var info: ConnectionInfo? = null): RecyclerView.ViewHolder(view){
     init {
         view.setOnClickListener {
-            val intent = Intent(view.context, DetailConnectionActivity::class.java)
+            if(view.Status.text == "Online") {
+                val intent = Intent(view.context, DetailConnectionActivity::class.java)
+                intent.putExtra("info", info)
+                view.context.startActivity(intent)
+            }
+            else{
+                update()
+            }
+        }
+        view.setOnLongClickListener {
 
+            val intent = Intent(view.context, DetailConnectionActivity::class.java)//TODO: go to edit instead
+            intent.putExtra("info", info)
             view.context.startActivity(intent)
+
+            true
+        }
+    }
+    fun update(){
+        view.Status.text = "Checking"
+        view.Status.setBackgroundColor(Color.YELLOW)
+        GlobalScope.launch(Dispatchers.Default){
+            if(isOnline(info!!)){
+                view.Status.text = "Online"
+                view.Status.setBackgroundColor(Color.GREEN)
+            }
+            else{
+                view.Status.text = "Offline"
+                view.Status.setBackgroundColor(Color.RED)
+            }
         }
     }
 }
