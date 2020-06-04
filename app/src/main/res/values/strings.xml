@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">FAHControl</string>
 
+
+    <string name="delete">Delete</string>
     <string name="add_connection">Add Server</string>
 
     <string name="ip_address">IP Address:*</string>
@@ -12,6 +14,8 @@
     <string name="nickname_hint">Basement Arch</string>
     <string name="password">Password:</string>
     <string name="password_warn">Passwords will be transmitted in plaintext.\nIt is strongly recommended that you don\'t use your bank password for folding @ home.\nPress submit again to acknowledge.</string>
+    <string name="password_hint">iamthebest123</string>
+    <string name="delete_warn">Press delete again to confirm</string>
     <string name="req_fields">* Required Fields</string>
     <string name="fold">Fold</string>
     <string name="pause">Pause</string>
