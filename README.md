@@ -9,4 +9,4 @@
 
  Don't like the app? Want to make it better?
  
- Throw me an email at fahcontrol@thotmail.ca or make a pull request.
+ I have absolutly no clue how open source contribution works so if you are an open source veteran fahcontrol@thotmail.ca is where you can tell me what to do
