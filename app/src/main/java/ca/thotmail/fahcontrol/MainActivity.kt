@@ -3,6 +3,7 @@ package ca.thotmail.fahcontrol
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log.d
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ca.thotmail.fahcontrol.storage.*
@@ -10,7 +11,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-private const val REQ_CODE_ADD_SERVER = 1
+const val REQ_CODE_ADD_SERVER = 1
+const val REQ_CODE_EDIT_SERVER = 2
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         dao = db.ConnInfoDao()
 
         MainRecycler.layoutManager = LinearLayoutManager(this)
-        MainRecycler.adapter = MainAdapter(dao)
+        MainRecycler.adapter = MainAdapter(this, dao)
 
         addConnection.setOnClickListener {
             startActivityForResult(Intent(this, AddConnectionActivity::class.java), REQ_CODE_ADD_SERVER)
@@ -39,6 +41,22 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode){
             REQ_CODE_ADD_SERVER -> addServerResult(resultCode, data)
+            REQ_CODE_EDIT_SERVER -> editServerResult(resultCode, data)
+        }
+    }
+
+    private fun editServerResult(resultCode: Int, data: Intent?){
+        if(resultCode == Activity.RESULT_OK){
+            GlobalScope.launch {
+                val toEdit = data!!.getSerializableExtra("toEdit") as ConnectionInfo
+                if (data!!.hasExtra("info")) {
+                    val updated = data!!.getSerializableExtra("info") as ConnectionInfo
+                    dao.update(toEdit, updated)
+                } else {
+                    dao.delete(toEdit)
+                }
+                (MainRecycler.adapter as MainAdapter).updateConnections()
+            }
         }
     }
 

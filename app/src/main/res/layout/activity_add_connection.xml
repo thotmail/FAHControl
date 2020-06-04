@@ -69,7 +69,7 @@
         app:layout_constraintTop_toBottomOf="@+id/IPAddrPrompt" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/PortPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -91,10 +91,10 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/PortPrompt" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/PasswordPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -111,11 +111,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:ems="10"
+        android:hint="@string/password_hint"
         android:importantForAutofill="no"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/PasswordPrompt" />
 
     <TextView
         android:id="@+id/PasswordWarn"
@@ -133,10 +134,37 @@
         app:layout_constraintTop_toBottomOf="@+id/PasswordInput" />
 
     <TextView
+        android:id="@+id/DeleteWarn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/delete_warn"
+        android:textColor="#F44336"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/ReqFieldsPrompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/ReqFieldsPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="@string/req_fields"
+        app:layout_constraintBottom_toTopOf="@+id/AddConnectionDelete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/AddConnectionDelete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:background="#FF0000"
+        android:text="@string/delete"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/AddConnectionSubmit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

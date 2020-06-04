@@ -1,24 +1,31 @@
 package ca.thotmail.fahcontrol
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import ca.thotmail.fahcontrol.storage.*
 import kotlinx.android.synthetic.main.fragment_mini_connection.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.security.AccessController.getContext
 
 class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
 
     private var dao : ConnInfoDao
     private lateinit var connections : List<ConnectionInfo>
+    private var mContext: AppCompatActivity
 
-    constructor(dao: ConnInfoDao){
+    constructor(context : AppCompatActivity, dao: ConnInfoDao){
         this.dao = dao
+        mContext = context
         updateConnections()
     }
 
@@ -55,6 +62,17 @@ class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
 
         holder.update()
 
+        holder.view.setOnLongClickListener {
+
+            val intent = Intent(holder.view.context, AddConnectionActivity::class.java)
+            intent.putExtra("toEdit", cur)
+            mContext.startActivityForResult(intent, REQ_CODE_EDIT_SERVER)
+
+            true
+        }
+
+
+
     }
 
 }
@@ -71,14 +89,7 @@ class CustomViewHolder(val view: View, var info: ConnectionInfo? = null): Recycl
                 update()
             }
         }
-        view.setOnLongClickListener {
 
-            val intent = Intent(view.context, DetailConnectionActivity::class.java)//TODO: go to edit instead
-            intent.putExtra("info", info)
-            view.context.startActivity(intent)
-
-            true
-        }
     }
     fun update(){
         view.Status.text = "Checking"
