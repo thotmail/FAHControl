@@ -47,11 +47,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun editServerResult(resultCode: Int, data: Intent?){
         if(resultCode == Activity.RESULT_OK){
-            if(data!!.hasExtra("info")){
-                //TODO: edit the toEdit and make it info
-            }
-            else{
-                //TODO: delete entry that matches toEdit
+            GlobalScope.launch {
+                val toEdit = data!!.getSerializableExtra("toEdit") as ConnectionInfo
+                if (data!!.hasExtra("info")) {
+                    val updated = data!!.getSerializableExtra("info") as ConnectionInfo
+                    dao.update(toEdit, updated)
+                } else {
+                    dao.delete(toEdit)
+                }
+                (MainRecycler.adapter as MainAdapter).updateConnections()
             }
         }
     }
