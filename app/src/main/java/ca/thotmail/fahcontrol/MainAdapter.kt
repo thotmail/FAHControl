@@ -1,21 +1,18 @@
 package ca.thotmail.fahcontrol
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import ca.thotmail.fahcontrol.storage.*
 import kotlinx.android.synthetic.main.fragment_mini_connection.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.security.AccessController.getContext
 
 class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
 
@@ -62,6 +59,8 @@ class MainAdapter: RecyclerView.Adapter<CustomViewHolder> {
 
         holder.update()
 
+
+
         holder.view.setOnLongClickListener {
 
             val intent = Intent(holder.view.context, AddConnectionActivity::class.java)
@@ -94,15 +93,21 @@ class CustomViewHolder(val view: View, var info: ConnectionInfo? = null): Recycl
     fun update(){
         view.Status.text = "Checking"
         view.Status.setBackgroundColor(Color.YELLOW)
-        GlobalScope.launch(Dispatchers.Default){
-            if(isOnline(info!!)){
-                view.Status.text = "Online"
-                view.Status.setBackgroundColor(Color.GREEN)
-            }
-            else{
-                view.Status.text = "Offline"
-                view.Status.setBackgroundColor(Color.RED)
+        var online = false
+
+        GlobalScope.launch(Dispatchers.Default) {
+            online = isOnline(info!!)
+
+            launch(Dispatchers.Main) {
+                if (online) {
+                    view.Status.text = "Online"
+                    view.Status.setBackgroundColor(Color.GREEN)
+                } else {
+                    view.Status.text = "Offline"
+                    view.Status.setBackgroundColor(Color.RED)
+                }
             }
         }
+
     }
 }

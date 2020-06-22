@@ -15,7 +15,8 @@
         android:backgroundTint="#194D50"
         android:clickable="true"
         android:focusable="true"
-        app:fabSize="mini"
+        android:scaleType="center"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_menu_add" />
